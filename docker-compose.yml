@@ -1,0 +1,27 @@
+version: '3.3'
+services:
+   db:
+     image: mysql/mysql-server:5.7.30
+     volumes:
+       - db_data:/var/lib/mysql
+       - mysql_conf:/etc/mysql/conf.d
+     restart: always
+     environment:
+       MYSQL_ROOT_PASSWORD: ${ROOT_PASSWORD}
+       MYSQL_DATABASE: lms
+       MYSQL_USER: ${USER_ACCOUNT}
+       MYSQL_PASSWORD: ${USER_PASSWORD}
+       CONTAINER_NAME: ${CONTAINER_NAME}
+     ports: 
+       - "6603:3306"
+volumes:
+     mysql_conf:
+       driver_opts:
+         type: none
+         o: bind
+         device: ${PWD}/conf.d 
+     db_data:
+       driver_opts:
+         type: none
+         o: bind
+         device: ${PWD}/mysql-data
